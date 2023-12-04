@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打杂工程项目</title>
+    <link rel="stylesheet" href="../../Prostatic/css/bootstrap.min.css">
+    <!-- <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" rel="stylesheet"> -->
+    <script src="../../Prostatic/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container mt-3">
+        <h2 style="text-align: center;">登录Login</h2>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="mb-3 mt-3">
+                    <label for="name" class="form-label">Name:</label>
+                    {{ form.name(class="form-control",placeholder="Enter Name") }}
+                </div>
+                <div class="mb-3 mt-3">
+                    <label for="password" class="form-label">PassWord:</label>
+                    {{ form.password(class="form-control",placeholder="Enter PassWord") }}
+                </div>
+                <div class="mb-3 mt-3">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+            </form>
+    </div>
+</body>
+</html>
