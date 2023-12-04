@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../Prostatic/css/bootstrap.min.css">
+    <!-- <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" rel="stylesheet"> -->
+    <script src="../../Prostatic/js/bootstrap.bundle.min.js"></script>
+    <title>智能页面</title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-sm-3 container mt-3">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="mb-2 mt-2">
+                    <label for="deviceid" class="form-label">设备MAC地址:</label>
+                    {{ form.deviceid(class="form-control",placeholder="设备MAC地址") }}
+                </div>
+                <div class="mb-2 mt-2">
+                    <label for="name" class="form-label">设备名称:</label>
+                    {{ form.name(class="form-control",placeholder="设备名称") }}
+                </div>
+                <div class="mb-2 mt-2">
+                    <label for="type" class="form-label">设备类型:</label>
+                    {{ form.type(class="form-control",placeholder="设备类型") }}
+                </div>
+                <div class="mb-2 mt-2">
+                    <label for="serviceid" class="form-label">UUID:</label>
+                    {{ form.serviceid(class="form-control",placeholder="UUID") }}
+                </div>
+                <div class="mb-2 mt-2">
+                    <label for="charid" class="form-label">蓝牙特征值:</label>
+                    {{ form.charid(class="form-control",placeholder="蓝牙特征值") }}
+                </div>
+                <div class="mb-2 mt-2">
+                    {{ form.savepush(class="btn btn-primary") }}
+                </div>
+                {% for message in get_flashed_messages() %}
+                    <div class="mb-2 mt-2" style="text-align: center;"> {{ message }}</div>
+                {% endfor %}
+            </form>
+        </div>
+        <div class="col-sm-9 container mt-3">
+            <h2>条纹表格</h2>
+            <p>通过添加 .table-striped 类，来设置条纹表格:</p> 
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>设备MAC地址</th>
+                    <th>设备名称</th>
+                    <th>设备类型</th>
+                    <th>UUID</th>
+                    <th>蓝牙特征值</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for devs in devdata %}
+                    <tr>
+                        <td>{{ devs.deviceid }}</td>
+                        <td>{{ devs.devname }}</td>
+                        <td>{{ devs.type }}</td>
+                        <td>{{ devs.serviceid }}</td>
+                        <td>{{ devs.charid }}</td>
+                    </tr>
+                    {% endfor %}
+                  <!-- <tr>
+                    <td>11111111111111111</td>
+                    <td>Doe</td>
+                    <td>打杂设备</td>
+                    <td>9FFE0-0000-1009-8000-00805F9B34FB</td>
+                    <td>99OFFE1-0999-1099-8099-09895F9B34FB</td>
+                  </tr> -->
+                </tbody>
+              </table>
+        </div>
+            
+    </div>
+</body>
+</html>
