@@ -14,6 +14,7 @@ app.servername = "Test"
 
 # prod env
 # DBconfig = MySQLconfig.Prod()
+# app.servername = "Test"
 
 
 # change '@#$%....' password in save mode
@@ -31,5 +32,5 @@ db = SQLAlchemy()
 db.init_app(app)
 
 
-from InsertApp  import login
+from InsertApp  import view
 

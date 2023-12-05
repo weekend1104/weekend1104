@@ -36,9 +36,9 @@ def index():
     return render_template('/view/index.html',servername= server_name,form=form)
 
 
-@app.route('/datainsert',methods=["get","post"])
+@app.route('/devinfo',methods=["get","post"])
 def datainsert():
-    form = Forms.DevdataForms()
+    form = Forms.DevDataInForms()
     DataResult = db.session.query(ClDevice).all()
     if form.validate_on_submit():
         if form.savepush.data:
@@ -46,12 +46,19 @@ def datainsert():
                                  devname=form.name.data,
                                  type=form.type.data,
                                  serviceid=form.serviceid.data,
-                                 charid=form.charid.data)
-            db.session.add(devdata)
-            db.session.commit()
-            flash("提交完成！！！")
-        return redirect(url_for('datainsert'))
-    return render_template('/view/datainsert.html',form=form,devdata=DataResult)
+                                 charid=form.charid.data,
+                                 startSampling=form.startSampling.data,
+                                 endSampling=form.endSampling.data
+                                 )
+            try:
+                db.session.add(devdata)
+                db.session.commit()
+                flash("提交完成！！！")
+            except BaseException:
+                db.session.rollback()
+                flash("提交失败！！！")
+        return redirect(url_for('devinfo'))
+    return render_template('/view/devinfo.html',form=form,devdata=DataResult)
 
 
 # @app.route('/CLS')

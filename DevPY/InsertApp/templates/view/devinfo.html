@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="row">
-        <div class="col-sm-3 container mt-3">
+        <div class="col-sm-2 container mt-3">
             <form method="POST">
                 {{ form.hidden_tag() }}
                 <div class="mb-2 mt-2">
@@ -34,6 +34,14 @@
                     {{ form.charid(class="form-control",placeholder="蓝牙特征值") }}
                 </div>
                 <div class="mb-2 mt-2">
+                    <label for="startSampling" class="form-label">开始命令:</label>
+                    {{ form.startSampling(class="form-control") }}
+                </div>
+                <div class="mb-2 mt-2">
+                    <label for="endSampling" class="form-label">结束命令:</label>
+                    {{ form.endSampling(class="form-control") }}
+                </div>
+                <div class="mb-2 mt-2">
                     {{ form.savepush(class="btn btn-primary") }}
                 </div>
                 {% for message in get_flashed_messages() %}
@@ -41,9 +49,9 @@
                 {% endfor %}
             </form>
         </div>
-        <div class="col-sm-9 container mt-3">
-            <h2>条纹表格</h2>
-            <p>通过添加 .table-striped 类，来设置条纹表格:</p> 
+        <div class="col-sm-10 container mt-3">
+            <h2>设备列表</h2>
+            <p>蓝牙设备链接表:</p> 
             <table class="table table-striped">
                 <thead>
                   <tr>

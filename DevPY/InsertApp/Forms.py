@@ -14,4 +14,6 @@ class  DevdataForms(FlaskForm):
     type = StringField("设备类型",validators=[DataRequired()])
     serviceid = StringField("UUID",validators=[DataRequired()])
     charid = StringField("蓝牙特征值",validators=[DataRequired()])
+    startSampling = StringField("开始命令",validators=[DataRequired()])
+    endSampling = StringField("结束命令",validators=[DataRequired()])
     savepush = SubmitField('提交')
