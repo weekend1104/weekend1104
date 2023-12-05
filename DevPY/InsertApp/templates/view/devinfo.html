@@ -60,6 +60,8 @@
                     <th>设备类型</th>
                     <th>UUID</th>
                     <th>蓝牙特征值</th>
+                    <th>开始命令</th>
+                    <th>结束命令</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -70,19 +72,22 @@
                         <td>{{ devs.type }}</td>
                         <td>{{ devs.serviceid }}</td>
                         <td>{{ devs.charid }}</td>
+                        <td>{{ devs.startSampling }}</td>
+                        <td>{{ devs.endSampling }}</td>
+                        <td>
+                            <button id='btn1' onclick="box1(('{{ devs.deviceid }}'))">按钮</button>
+                        </td>
                     </tr>
                     {% endfor %}
-                  <!-- <tr>
-                    <td>11111111111111111</td>
-                    <td>Doe</td>
-                    <td>打杂设备</td>
-                    <td>9FFE0-0000-1009-8000-00805F9B34FB</td>
-                    <td>99OFFE1-0999-1099-8099-09895F9B34FB</td>
-                  </tr> -->
                 </tbody>
               </table>
-        </div>
-            
+        </div>       
     </div>
+<script type="text/javascript">
+function box1(devid){
+    let id1 = devid 
+    console.log(id1)
+}
+</script>
 </body>
 </html>

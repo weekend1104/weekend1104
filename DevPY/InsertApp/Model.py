@@ -79,10 +79,10 @@ from InsertApp import app,db
 class ClDevice(db.Model):
     __tablename__ = 'cl_device'
 
-    deviceid = db.Column(db.String(50), unique=True, comment='设备mac地址')
+    deviceid = db.Column(db.String(50), unique=True,primary_key=True,nullable=False,comment='设备mac地址')
     devname = db.Column(db.String(50), comment='设备名称')
     type = db.Column(db.String(50), comment='设备类型')
-    serviceid = db.Column(db.String(150), primary_key=True,nullable=False,comment='UUID')
+    serviceid = db.Column(db.String(150), comment='UUID')
     charid = db.Column(db.String(150), comment='蓝牙特征值')
     startSampling = db.Column(db.String(100), comment='开始命令')
     endSampling = db.Column(db.String(100), comment='结束命令')

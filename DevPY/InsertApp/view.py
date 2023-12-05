@@ -1,4 +1,5 @@
-from InsertApp import app,Forms,db
+from InsertApp import app,db
+from InsertApp import Forms
 from flask import redirect,render_template,make_response,request,session,url_for,g,flash
 from InsertApp.Model import ClDevice
 
@@ -30,15 +31,15 @@ def index():
         CheckOn = login_check(username,password)
         if CheckOn:
             session["username"] = username
-            return redirect(url_for('datainsert'))
+            return redirect(url_for('devinfo'))
         else:
             return ('<h1>不对的等录</h1>')
     return render_template('/view/index.html',servername= server_name,form=form)
 
 
 @app.route('/devinfo',methods=["get","post"])
-def datainsert():
-    form = Forms.DevDataInForms()
+def devinfo():
+    form = Forms.DevDataIn()
     DataResult = db.session.query(ClDevice).all()
     if form.validate_on_submit():
         if form.savepush.data:
