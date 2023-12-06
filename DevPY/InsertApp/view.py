@@ -3,7 +3,7 @@ from InsertApp import Forms
 from flask import redirect,render_template,make_response,request,session,url_for,g,flash
 from InsertApp.Model import ClDevice
 
-neet_login_url = ['/datainsert']
+auth_url = ['/datainsert','/delinfo']
 
 def login_check(username,pwd):
     if username and pwd:
@@ -15,7 +15,7 @@ def login_check(username,pwd):
 
 @app.before_request
 def BeforeDo():
-    if request.path in neet_login_url:
+    if request.path in auth_url:
         if not session.get("username"):
             return redirect(url_for('index'))
 
@@ -33,7 +33,7 @@ def index():
             session["username"] = username
             return redirect(url_for('devinfo'))
         else:
-            return ('<h1>不对的等录</h1>')
+            return redirect(url_for('index'))
     return render_template('/view/index.html',servername= server_name,form=form)
 
 
@@ -62,7 +62,10 @@ def devinfo():
     return render_template('/view/devinfo.html',form=form,devdata=DataResult)
 
 
-# @app.route('/CLS')
-# def session_clear():
-#     session.pop("username",None)
-#     return ("<h1>清楚session！</h1>")
+@app.route('/deldev',methods=["POST"])
+def delinfo():
+    if request.method=="POST":
+        devdata = request.get_json()
+        devid = devdata.get('devid')
+        print(devid)
+        return 'success'

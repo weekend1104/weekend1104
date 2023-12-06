@@ -7,6 +7,52 @@
     <!-- <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" rel="stylesheet"> -->
     <script src="../../Prostatic/js/bootstrap.bundle.min.js"></script>
     <title>智能页面</title>
+    <style>
+        #deltoast {
+            /* width: 300px; */
+            top: 40%;
+            left: 50%;
+            translate: -150px;
+            display: none;
+            position: fixed;
+
+        }
+        .alter {
+            background-color: bisque;
+            
+        }
+    </style>
+    <script type="text/javascript">
+        let devid = null;
+        let toastid = null;
+        function showhtml(devdataid){
+            devid = devdataid;
+            toastid = document.getElementById('deltoast');
+            toastid.style.display='block';
+        }
+        function hidehtml(){
+            toastid.style.display='none';
+            toastid = null;
+        }
+        function deletediv(){
+            const requestOptions = {
+                method:"POST",
+                headers:{
+                    'Content-Type':'application/json'                
+                },
+                body: JSON.stringify({ devid:devid })
+            };
+            fetch('/deldev',requestOptions)
+            .then(response  => {
+                return response.json()
+            })
+            .then(data  => {
+                console.log(data)
+            })
+            toastid.style.display='none';
+            toastid = null;
+            }
+    </script>
 </head>
 <body>
     <div class="row">
@@ -15,7 +61,7 @@
                 {{ form.hidden_tag() }}
                 <div class="mb-2 mt-2">
                     <label for="deviceid" class="form-label">设备MAC地址:</label>
-                    {{ form.deviceid(class="form-control",placeholder="设备MAC地址") }}
+                    {{ form.deviceid(id="{{ form.deviceid }}",class="form-control",placeholder="设备MAC地址") }}
                 </div>
                 <div class="mb-2 mt-2">
                     <label for="name" class="form-label">设备名称:</label>
@@ -75,7 +121,7 @@
                         <td>{{ devs.startSampling }}</td>
                         <td>{{ devs.endSampling }}</td>
                         <td>
-                            <button id='btn1' onclick="box1(('{{ devs.deviceid }}'))">按钮</button>
+                            <button class="btn btn-info" onclick="showhtml(('{{ devs.deviceid }}'))">删除</button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -83,11 +129,14 @@
               </table>
         </div>       
     </div>
-<script type="text/javascript">
-function box1(devid){
-    let id1 = devid 
-    console.log(id1)
-}
-</script>
+    <div id="deltoast">
+        <div class="alert alert-dark">
+          <p class="display-6 text-center">确定删除设备信息？</p>
+          <div class="">
+            <button class="btn btn-primary" onclick="deletediv()">确定</button>
+            <button class="btn btn-primary" onclick="hidehtml()">取消</button>
+          </div>
+        </div>
+    </div>
 </body>
 </html>
