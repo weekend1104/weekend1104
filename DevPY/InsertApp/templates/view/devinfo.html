@@ -48,9 +48,12 @@
             })
             .then(data  => {
                 console.log(data)
+                toastid.style.display='none';
+                toastid = null;
+                window.location.reload();
             })
-            toastid.style.display='none';
-            toastid = null;
+            // toastid.style.display='none';
+            // toastid = null;
             }
     </script>
 </head>
