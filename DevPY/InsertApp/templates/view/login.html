@@ -32,6 +32,9 @@
                     {{ form.submit(class="btn btn-primary") }}
                 </div>
             </form>
+            {% for message in get_flashed_messages() %}
+                    <div class="mb-2 mt-2" style="text-align: center;color: tomato;"> {{ message }}</div>
+            {% endfor %}
     </div>
 </body>
 </html>

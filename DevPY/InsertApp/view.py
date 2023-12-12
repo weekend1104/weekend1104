@@ -1,14 +1,21 @@
 from InsertApp import app,db
+import requests
+from requests.auth import HTTPBasicAuth
 from InsertApp import Forms
 from flask import redirect,render_template,make_response,request,session,url_for,g,flash
 from InsertApp.Model import ClDevice
 
-auth_url = ['/datainsert','/delinfo']
+auth_url = ['/devinfo','/delinfo']
 
 def login_check(username,pwd):
-    if username and pwd:
-        if username == 'superadmin' and pwd == '1qaz@WSX':
-            return True
+    url = app.mainUrl + "/smart-bee/curr-user-info/admin/"
+    auth = HTTPBasicAuth(username,pwd)
+    response = requests.request("GET", url, auth=auth)
+    # if username and pwd:
+    #     if username == 'superadmin' and pwd == '1qaz@WSX3edc':
+
+    if response.status_code == 200:
+        return True
     else:
         return False
 
@@ -16,13 +23,16 @@ def login_check(username,pwd):
 @app.before_request
 def BeforeDo():
     if request.path in auth_url:
-        if not session.get("username"):
-            return redirect(url_for('index'))
+        if session.get("is_login"):
+            return None
+        else:
+            return redirect(url_for('login'))
 
 
 
-@app.route('/index',methods=["get","post"])
-def index():
+@app.route('/login',methods=["get","post"])
+def login():
+    session["is_login"] = False
     server_name = app.servername
     form = Forms.LoginForm()
     if form.validate_on_submit():
@@ -31,10 +41,12 @@ def index():
         CheckOn = login_check(username,password)
         if CheckOn:
             session["username"] = username
+            session["is_login"] = True
             return redirect(url_for('devinfo'))
         else:
-            return redirect(url_for('index'))
-    return render_template('/view/index.html',servername= server_name,form=form)
+            flash("账户名或密码错误！")
+            return redirect(url_for('login'))
+    return render_template('/view/login.html',servername= server_name,form=form)
 
 
 @app.route('/devinfo',methods=["GET","POST"])

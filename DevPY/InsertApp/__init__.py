@@ -10,11 +10,13 @@ app = Flask(__name__,template_folder='templates',static_folder='Prostatic')
 # Test env
 DBconfig = MySQLconfig.Test()
 app.servername = "Test"
+app.mainUrl = "http://www.youtwin.com.cn:19096"
 
 
 # prod env
 # DBconfig = MySQLconfig.Prod()
-# app.servername = "Test"
+# app.servername = "Prod"
+# app.mainUrl = "https://www.zjzncl.com"
 
 
 # change '@#$%....' password in save mode
