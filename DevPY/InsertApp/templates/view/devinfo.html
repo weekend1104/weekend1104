@@ -25,6 +25,9 @@
             display: flex;
             justify-content: space-between;
         }
+        .tdbtn {
+            width: 55px;
+        }
     </style>
     <script type="text/javascript">
         let devid = null;
@@ -127,9 +130,14 @@
                         <td>{{ devs.charid }}</td>
                         <td>{{ devs.startSampling }}</td>
                         <td>{{ devs.endSampling }}</td>
-                        <td>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" onclick="showhtml(('{{ devs.deviceid }}'))">删除</button>
-                        </td>
+                        <div>
+                            <td>
+                                <button class="btn btn-primary tdbtn" data-bs-toggle="modal" data-bs-target="#myModal" onclick="showhtml(('{{ devs.deviceid }}'))">编辑</button>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary tdbtn" data-bs-toggle="modal" data-bs-target="#myModal" onclick="showhtml(('{{ devs.deviceid }}'))">删除</button>
+                            </td>
+                        </div>
                     </tr>
                     {% endfor %}
                 </tbody>
