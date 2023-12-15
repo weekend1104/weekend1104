@@ -54,27 +54,34 @@ def devinfo():
     form = Forms.DevDataIn()
     # 字符串+0 可以让字符串按照数字排序
     DataResult = db.session.query(ClDevice).order_by(ClDevice.deviceid+0).all()
+    devtasks = {}
     if request.method=="POST":
-        if form.validate_on_submit():
-            if form.savepush.data:
-                devdata = ClDevice(deviceid=form.deviceid.data,
+        print('没有按钮！')
+    if form.validate_on_submit():
+        if form.savepush.data:
+            devtasks["cltasks"]=form.cltype.data
+            devdata = ClDevice(deviceid=form.deviceid.data,
                                     devname=form.name.data,
                                     type=form.type.data,
                                     serviceid=form.serviceid.data,
                                     charid=form.charid.data,
                                     startSampling=form.startSampling.data,
-                                    endSampling=form.endSampling.data
+                                    endSampling=form.endSampling.data,
+                                    writrCharacteristicId=form.WritrCharacteristicId.data,
+                                    devtasktype=devtasks
                                     )
-                try:
-                    db.session.add(devdata)
-                    db.session.commit()
-                    flash("提交完成！！！")
-                except BaseException:
-                    db.session.rollback()
-                    flash("提交失败！！！")
-            return redirect(url_for('devinfo'))
+            print(devtasks["cltasks"])
+            print('有按按钮NNNNNNNNNNNNNNNNNNNNNNNN！')
+            try:
+                db.session.add(devdata)
+                # db.session.commit()
+                flash("提交完成！！！")
+            except BaseException:
+                db.session.rollback()
+                flash("提交失败！！！")
+        return redirect(url_for('devinfo'))
+        
     return render_template('/view/devinfo.html',form=form,devdata=DataResult)
-
 
 @app.route('/deldev',methods=["POST"])
 def deldev():
@@ -98,3 +105,49 @@ def deldev():
             }
             response = make_response(responsejson)
         return response
+
+@app.route('/getdevinfoById',methods=["POST"])
+def getdevinfoById():
+    if request.method=="POST":
+        devdata = request.get_json()
+        devid = devdata.get('devid')
+        dataresult = ClDevice.query.filter_by(deviceid=devid).first()
+        print(dataresult)
+
+# @app.route('/devinsert',methods=["POST"])
+# def devinsert():
+#     form = Forms.DevDataIn()
+#     devtasks = {}
+
+#     res = request.get_json()
+#     devid = res.get('devid')
+
+#     form.deviceid.data=
+#     form.name.data=
+#     form.type.data=
+#     form.serviceid.data=
+#     form.charid.data=
+#     form.startSampling.data=
+#     form.endSampling.data=
+#     form.WritrCharacteristicId.data=
+
+#     if request.method=="POST":
+#         devtasks["cltasks"]=form.cltype.data
+#         devdata = ClDevice(deviceid=form.deviceid.data,
+#                             devname=form.name.data,
+#                             type=form.type.data,
+#                             serviceid=form.serviceid.data,
+#                             charid=form.charid.data,
+#                             startSampling=form.startSampling.data,
+#                             endSampling=form.endSampling.data,
+#                             writrCharacteristicId=form.WritrCharacteristicId.data,
+#                             devtasktype=devtasks
+#                             )
+#         try:
+#             db.session.add(devdata)
+#             db.session.commit()
+#             flash("更新完成！！！")
+#         except BaseException:
+#             db.session.rollback()
+#             flash("更新失败！！！")
+#     return redirect(url_for('devinfo'))

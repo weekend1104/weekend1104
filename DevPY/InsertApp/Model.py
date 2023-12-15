@@ -86,6 +86,8 @@ class ClDevice(db.Model):
     charid = db.Column(db.String(150), comment='蓝牙特征值')
     startSampling = db.Column(db.String(100), comment='开始命令')
     endSampling = db.Column(db.String(100), comment='结束命令')
+    writrCharacteristicId = db.Column(db.String(150),comment='writrCharacteristicId')
+    devtasktype = db.Column(db.JSON)
 
     
 

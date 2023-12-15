@@ -1,0 +1,40 @@
+{
+    "type":[
+        "task_1",
+        "task_1",
+        "task_1",
+        "task_1",
+        "task_1"]
+},
+
+{
+    "type":[
+        {
+            "混凝土工程":[
+                "task_1",
+                "task_1",
+                "task_1",
+                "task_1",
+                "task_1"
+            ]
+        },
+        {
+            "砌筑工程":[
+                "task_1",
+                "task_1",
+                "task_1",
+                "task_1",
+                "task_1"
+            ]
+        },
+        {
+            "抹灰工程":[
+                "task_1",
+                "task_1",
+                "task_1",
+                "task_1",
+                "task_1"
+            ]
+        }
+    ]
+}

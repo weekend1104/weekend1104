@@ -5,7 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__,template_folder='templates',static_folder='Prostatic')
-
+# app.jinja_env.auto_reload = True
+# app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 # Test env
 DBconfig = MySQLconfig.Test()
@@ -30,8 +31,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = MySqlLink
 app.config["SQLALCHEMY_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ECHO"] = True
 
-db = SQLAlchemy()
-db.init_app(app)
+db = SQLAlchemy(app)
+# db.init_app(app)
 
 
 from InsertApp  import view

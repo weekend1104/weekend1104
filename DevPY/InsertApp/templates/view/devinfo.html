@@ -8,18 +8,25 @@
     <script src="../../Prostatic/js/bootstrap.bundle.min.js"></script>
     <title>智能页面</title>
     <style>
-        #deltoast {
-            /* width: 300px; */
-            top: 40%;
+        /* .htmltoast {
+            width: 600px;
+            top: 10%;
             left: 50%;
-            translate: -150px;
+            translate: -250px;
             display: none;
             position: fixed;
 
+        } */
+        .tips {
+            display: flex;
+        }
+        .message {
+            flex: 1;
+            text-align: center;
+            color: blue;
         }
         .alter {
             background-color: bisque;
-            
         }
         .footerbtn {
             display: flex;
@@ -32,10 +39,14 @@
     <script type="text/javascript">
         let devid = null;
         let toastid = null;
-        function showhtml(devdataid){
+
+        function devidpass(devdataid){
             devid = devdataid;
-            // toastid = document.getElementById('myModal');
-            // toastid.style.display='block';
+        }
+
+        function showhtml(){
+            toastid = document.getElementById('devinsert');
+            toastid.style.display='block';
         }
         function hidehtml(){
             toastid.style.display='none';
@@ -62,52 +73,41 @@
             // toastid.style.display='none';
             // toastid = null;
             }
+
+            function testdiv(){
+            const requestOptions = {
+                method:"POST",
+                headers:{
+                    'Content-Type':'application/json'                
+                },
+                body: JSON.stringify({ devid:'test01' })
+            };
+            fetch('/devinfo',requestOptions)
+            .then(response  => {
+                return response.json()
+            })
+            .then(data  => {
+                console.log(data)
+                // toastid.style.display='none';
+                // toastid = null;
+                // window.location.reload();
+            })
+            // toastid.style.display='none';
+            // toastid = null;
+            }
     </script>
 </head>
 <body>
     <div class="row">
-        <div class="col-sm-2 container mt-3">
-            <form method="POST">
-                {{ form.hidden_tag() }}
-                <div class="mb-2 mt-2">
-                    <label for="deviceid" class="form-label">设备MAC地址:</label>
-                    {{ form.deviceid(id="{{ form.deviceid }}",class="form-control",placeholder="设备MAC地址") }}
-                </div>
-                <div class="mb-2 mt-2">
-                    <label for="name" class="form-label">设备名称:</label>
-                    {{ form.name(class="form-control",placeholder="设备名称") }}
-                </div>
-                <div class="mb-2 mt-2">
-                    <label for="type" class="form-label">设备类型:</label>
-                    {{ form.type(class="form-control",placeholder="设备类型") }}
-                </div>
-                <div class="mb-2 mt-2">
-                    <label for="serviceid" class="form-label">UUID:</label>
-                    {{ form.serviceid(class="form-control",placeholder="UUID") }}
-                </div>
-                <div class="mb-2 mt-2">
-                    <label for="charid" class="form-label">蓝牙特征值:</label>
-                    {{ form.charid(class="form-control",placeholder="蓝牙特征值") }}
-                </div>
-                <div class="mb-2 mt-2">
-                    <label for="startSampling" class="form-label">开始命令:</label>
-                    {{ form.startSampling(class="form-control") }}
-                </div>
-                <div class="mb-2 mt-2">
-                    <label for="endSampling" class="form-label">结束命令:</label>
-                    {{ form.endSampling(class="form-control") }}
-                </div>
-                <div class="mb-2 mt-2">
-                    {{ form.savepush(class="btn btn-primary") }}
-                </div>
-                {% for message in get_flashed_messages() %}
-                    <div class="mb-2 mt-2" style="text-align: center;"> {{ message }}</div>
-                {% endfor %}
-            </form>
-        </div>
-        <div class="col-sm-10 container mt-3">
+
+        <div class="container mt-3">
             <h2>设备列表</h2>
-            <p>蓝牙设备链接表:</p> 
+            <div class="tips">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#devinModal" onclick="testdiv()">新增测量设备</button>
+                {% for message in get_flashed_messages() %}
+                <span class="mb-2 mt-2 message" style="text-align: center;"> {{ message }}</span>
+                {% endfor %}
+            </div>
             <table class="table table-striped">
                 <thead>
                   <tr>
@@ -132,10 +132,10 @@
                         <td>{{ devs.endSampling }}</td>
                         <div>
                             <td>
-                                <button class="btn btn-primary tdbtn" data-bs-toggle="modal" data-bs-target="#myModal" onclick="showhtml(('{{ devs.deviceid }}'))">编辑</button>
+                                <button class="btn btn-primary tdbtn" data-bs-toggle="modal" data-bs-target="#myModal" onclick="devidpass(('{{ devs.deviceid }}'))">删除</button>
                             </td>
                             <td>
-                                <button class="btn btn-primary tdbtn" data-bs-toggle="modal" data-bs-target="#myModal" onclick="showhtml(('{{ devs.deviceid }}'))">删除</button>
+                                <button class="btn btn-primary tdbtn" data-bs-toggle="modal" data-bs-target="#myModal" onclick="devidpass(('{{ devs.deviceid }}'))">删除</button>
                             </td>
                         </div>
                     </tr>
@@ -160,14 +160,65 @@
             </div>
         </div>
     </div>
-    <!-- <div id="deltoast">
-        <div class="alert alert-dark">
-          <p class="display-6 text-center">确定删除设备信息？</p>
-          <div class="footerbtn">
-            <button class="btn btn-primary" onclick="deletediv()">确定</button>
-            <button class="btn btn-primary" onclick="hidehtml()">取消</button>
-          </div>
+
+    </div>
+    <div class="modal" id="devinModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">新增蓝牙设备</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="devInForm" method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-2 mt-2">
+                        <label for="deviceid" class="form-label">设备MAC地址:</label>
+                        {{ form.deviceid(id="{{ form.deviceid }}",class="form-control",placeholder="设备MAC地址") }}
+                    </div>
+                    <div class="mb-2 mt-2">
+                        <label for="name" class="form-label">设备名称:</label>
+                        {{ form.name(class="form-control",placeholder="设备名称") }}
+                    </div>
+                    <div class="mb-2 mt-2">
+                        <label for="type" class="form-label">设备类型:</label>
+                        {{ form.type(class="form-control",placeholder="设备类型") }}
+                    </div>
+                    <div class="mb-2 mt-2">
+                        <label for="serviceid" class="form-label">UUID:</label>
+                        {{ form.serviceid(class="form-control",placeholder="UUID") }}
+                    </div>
+                    <div class="mb-2 mt-2">
+                        <label for="charid" class="form-label">蓝牙特征值:</label>
+                        {{ form.charid(class="form-control",placeholder="蓝牙特征值") }}
+                    </div>
+                    <div class="mb-2 mt-2">
+                        <label for="startSampling" class="form-label">开始命令:</label>
+                        {{ form.startSampling(class="form-control") }}
+                    </div>
+                    <div class="mb-2 mt-2">
+                        <label for="endSampling" class="form-label">结束命令:</label>
+                        {{ form.endSampling(class="form-control") }}
+                    </div>
+                    <div class="mb-2 mt-2">
+                        <label for="WritrCharacteristicId" class="form-label">WritrCharacteristicId:</label>
+                        {{ form.WritrCharacteristicId(class="form-control") }}
+                    </div>
+                    <div class="mb-2 mt-2">
+                        <label for="cltype" class="form-check-label">测量任务类型:</label>
+                        {{ form.cltype(style="height:150px;width:300px;")}}
+                    </div>
+                    <!-- 模态框底部 -->
+                    <div class="modal-footer">
+                        {{ form.savepush(class="btn btn-primary") }}
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">关闭</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div> -->
+        
+        
+
+    </div>
 </body>
 </html>
