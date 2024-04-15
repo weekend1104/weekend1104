@@ -16,7 +16,10 @@ async def index1(verify = Depends(decode_token)):
             "per":101
         })
     else:
-        return JSONResponse(status_code=status.HTTP_501_NOT_IMPLEMENTED,content=verify)
+        return JSONResponse(
+            status_code=status.HTTP_501_NOT_IMPLEMENTED,
+            content=verify
+        )
 
  
 @indexs.get("/items/{item_id}")

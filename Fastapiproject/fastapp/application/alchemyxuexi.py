@@ -14,7 +14,7 @@ if __name__=="__main__":
 
     result = sqlexcute.query(ItemSpec).filter(ItemSpec.id==5).first()
     
-    print(result.comment)
+    print(result.spcname)
     print(type(result.comment))
 
     sqlexcute.close()

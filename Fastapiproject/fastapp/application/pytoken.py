@@ -5,8 +5,6 @@ from jwt import JWT,jwk_from_dict
 from jwt.utils import b64encode,get_int_from_datetime
 from datetime import datetime, timedelta, timezone
 from jwt.exceptions import JWTDecodeError
-from application import engine
-
 
 signing_key = jwk_from_dict({'kty': 'oct',
                              'k': b64encode(b'''This is a bot shit applications!''')})
@@ -39,10 +37,10 @@ def decode_token(Authorization = Header(None)):
                 "message":"Verification passed."
             }
             return Verification
-        except JWTDecodeError:
+        except Exception as error:
             Verification = {
                 "Verification":False,
-                "message":"Verification is failed."
+                "message":repr(error)
             }
             return Verification
 
