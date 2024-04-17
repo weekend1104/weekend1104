@@ -14,6 +14,7 @@ databasecofig = Test()
 MySqlLink = 'mysql://{0}:{1}@{2}:{3}/{4}'.format(databasecofig.username,databasecofig.passwd,databasecofig.host,databasecofig.port,databasecofig.db)
 
 # engine = create_engine('dialect+driver://username:password@host:port/database')
-engine = create_engine(MySqlLink,echo=True)
+engine = create_engine(MySqlLink)
+# engine = create_engine(MySqlLink,echo=True)
 
 Session = sessionmaker(bind=engine)
